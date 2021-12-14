@@ -1,0 +1,18 @@
+[package]
+name = "jcers_proc"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "proc-macro for jcers"
+authors = ["Abrahum<307887491@qq.com>"]
+homepage = "https://github.com/abrahum/jcers"
+
+[lib]
+proc-macro = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+quote = "1"
+syn = "1"
+proc-macro2 = "1"

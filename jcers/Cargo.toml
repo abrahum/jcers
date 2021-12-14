@@ -1,0 +1,29 @@
+[package]
+name = "jcers"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "proc-macro for jcers"
+authors = ["Abrahum<307887491@qq.com>"]
+homepage = "https://github.com/abrahum/jcers"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+derive = ["jcers_proc"]
+
+[[example]]
+name = "test"
+path = "examples/test.rs"
+required-features = ["derive"]
+
+[dependencies]
+bytes = "1.1"
+jcers_proc = { path = "../jcers_proc" , optional = true }
+
+[dev-dependencies]
+hex = "*"
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
