@@ -2,7 +2,7 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum JceType {
     /// 0
-    Byte,
+    U8,
     /// 0
     Bool,
     /// 1
@@ -40,7 +40,7 @@ pub enum JceType {
 impl From<u8> for JceType {
     fn from(ty: u8) -> JceType {
         match ty {
-            0 => JceType::Byte,
+            0 => JceType::U8,
             1 => JceType::I16,
             2 => JceType::I32,
             3 => JceType::I64,
@@ -68,7 +68,7 @@ impl Default for JceType {
 impl std::fmt::Display for JceType {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
-            JceType::Byte => write!(f, "Byte"),
+            JceType::U8 => write!(f, "U8"),
             JceType::Bool => write!(f, "Bool"),
             JceType::I16 => write!(f, "I16"),
             JceType::I32 => write!(f, "I32"),

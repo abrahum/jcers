@@ -1,9 +1,9 @@
 [package]
 name = "jcers"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "MIT"
-description = "proc-macro for jcers"
+description = "jce in rust"
 authors = ["Abrahum<307887491@qq.com>"]
 homepage = "https://github.com/abrahum/jcers"
 

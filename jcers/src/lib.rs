@@ -66,5 +66,5 @@ fn test_from_buf() {
     use bytes::Bytes;
     let mut buf = Bytes::from(vec![0x00u8, 0x01u8]);
     let v: JceValue = from_buf(&mut buf).unwrap();
-    assert_eq!(v, JceValue::Byte(0x01u8));
+    assert_eq!(v, JceValue::U8(0x01u8));
 }

@@ -25,6 +25,15 @@ pub trait JceGet: Sized {
     fn get_by_tag<B: Buf + ?Sized>(jce: &mut Jce<B>, tag: u8) -> JceResult<Self> {
         jce.get_by_tag(tag)
     }
+    fn from_buf<B: Buf + ?Sized>(buf: &mut B) -> JceResult<Self> {
+        let mut jce = Jce::new(buf);
+        Self::jce_get(&mut jce)
+    }
+    fn from_boxed_buf<B: Buf + ?Sized>(buf: &mut B) -> JceResult<Self> {
+        buf.advance(1);
+        let mut jce = Jce::new(buf);
+        Self::jce_get(&mut jce)
+    }
 }
 
 impl<'a, B> Jce<'a, B>
@@ -106,7 +115,7 @@ where
 impl JceGet for bool {
     fn jce_get<B: Buf + ?Sized>(jce: &mut Jce<B>) -> JceResult<Self> {
         match jce.head.ty {
-            JceType::Bool | JceType::Byte => Ok(jce.inner.get_u8() != 0),
+            JceType::Bool | JceType::U8 => Ok(jce.inner.get_u8() != 0),
             _ => Err(JceError::ReadTypeError(JceType::Bool, jce.head.ty)),
         }
     }
@@ -121,8 +130,8 @@ impl JceGet for u8 {
     fn jce_get<B: Buf + ?Sized>(jce: &mut Jce<B>) -> JceResult<Self> {
         match jce.head.ty {
             JceType::Empty => Self::empty(),
-            JceType::Byte => Ok(jce.inner.get_u8()),
-            _ => Err(JceError::ReadTypeError(JceType::Byte, jce.head.ty)),
+            JceType::U8 => Ok(jce.inner.get_u8()),
+            _ => Err(JceError::ReadTypeError(JceType::U8, jce.head.ty)),
         }
     }
 
@@ -134,7 +143,7 @@ impl JceGet for u8 {
 impl JceGet for i16 {
     fn jce_get<B: Buf + ?Sized>(jce: &mut Jce<B>) -> JceResult<Self> {
         match jce.head.ty {
-            JceType::Byte => u8::jce_get(jce).map(|i| i as i16),
+            JceType::U8 => u8::jce_get(jce).map(|i| i as i16),
             JceType::I16 => Ok(jce.inner.get_i16()),
             JceType::Empty => Self::empty(),
             _ => Err(JceError::ReadTypeError(JceType::I16, jce.head.ty)),
@@ -149,7 +158,7 @@ impl JceGet for i16 {
 impl JceGet for i32 {
     fn jce_get<B: Buf + ?Sized>(jce: &mut Jce<B>) -> JceResult<Self> {
         match jce.head.ty {
-            JceType::Byte => u8::jce_get(jce).map(|i| i as i32),
+            JceType::U8 => u8::jce_get(jce).map(|i| i as i32),
             JceType::I16 => i16::jce_get(jce).map(|i| i as i32),
             JceType::I32 => Ok(jce.inner.get_i32()),
             JceType::Empty => Self::empty(),
@@ -165,7 +174,7 @@ impl JceGet for i32 {
 impl JceGet for i64 {
     fn jce_get<B: Buf + ?Sized>(jce: &mut Jce<B>) -> JceResult<Self> {
         match jce.head.ty {
-            JceType::Byte => u8::jce_get(jce).map(|i| i as i64),
+            JceType::U8 => u8::jce_get(jce).map(|i| i as i64),
             JceType::I16 => i16::jce_get(jce).map(|i| i as i64),
             JceType::I32 => i32::jce_get(jce).map(|i| i as i64),
             JceType::I64 => Ok(jce.inner.get_i64()),
